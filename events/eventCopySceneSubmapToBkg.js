@@ -1,4 +1,4 @@
-export const id = "EVENT_COPY_BKG_SUBMAP_TO_WIN";
+export const id = "EVENT_COPY_BKG_SUBMAP_TO_BKG";
 export const name = "Copy scene submap to background";
 export const groups = ["EVENT_GROUP_SCREEN"];
 
