@@ -1,9 +1,9 @@
 export const id = "EVENT_COPY_BKG_SUBMAP_TO_WIN";
-export const name = "Copy background submap to overlay";
+export const name = "Copy scene submap to overlay";
 export const groups = ["EVENT_GROUP_SCREEN"];
 
 export const autoLabel = (fetchArg) => {
-  return `Copy background submap to overlay`;
+  return `Copy scene submap to overlay`;
 };
 
 export const fields = [
@@ -103,7 +103,7 @@ export const compile = (input, helpers) => {
   
   //_stackPush
   
-  _addComment("Copy background submap to overlay");
+  _addComment("Copy scene submap to overlay");
   
   _stackPushConst(`_${scene.symbol}`);
   _stackPushConst(`___bank_${scene.symbol}`); 
@@ -116,6 +116,6 @@ export const compile = (input, helpers) => {
   		
   //_callNative("copy_background_submap_to_overlay"); 
   _callNative("copy_background_submap_to_overlay");
-  _stackPop(9);  
+  _stackPop(8);  
   
 };
