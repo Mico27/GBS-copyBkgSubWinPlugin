@@ -1,7 +1,8 @@
 # GBS-copyBkgSubWinPlugin
  Plugin for partialy copying a scene to the overlay
 
- if you are using GBS v4 use the v4 plugin version
+if you are using GBS v4 use the v4 plugin version
+
 if you are using GBS v3 use the v3 plugin version (this one does not support variables in parameters)
  
 There's 2 version of the event. If you're using the common tileset between the scene you are copying from, use the "Copy background submap to overlay" event, if you are not using a common tileset between the scenes, use the "Copy background submap to overlay with tile offset" with some GBVM to put the tileset offset so that it doesnt conflict with the first scene tileset (should be the same offset that you pass to the event like so (see image)).
