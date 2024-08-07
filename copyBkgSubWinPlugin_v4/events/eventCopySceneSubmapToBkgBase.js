@@ -90,7 +90,7 @@ export const fields = [
 ];
 
 export const compile = (input, helpers) => {
-  const { options, variableSetToValue, _callNative, _rpn, _stackPushConst, _stackPush, _stackPop, _localRef, _addComment, _declareLocal, _overlayShow, _addCmd, appendRaw, variableSetToScriptValue } = helpers;
+  const { options, _callNative, _rpn, _stackPushConst, _stackPush, _stackPop, _addComment, _declareLocal, variableSetToScriptValue } = helpers;
   
   const { scenes } = options;
   const scene = scenes.find((s) => s.id === input.sceneId);
@@ -113,9 +113,7 @@ export const compile = (input, helpers) => {
   variableSetToScriptValue(tmp4, input.w);
   variableSetToScriptValue(tmp5, input.h);
   variableSetToScriptValue(tmp6, input.tile_offset);
-  
-  
-  //_stackPush
+    
   
   _addComment("Copy scene submap to background with tile offset");
   

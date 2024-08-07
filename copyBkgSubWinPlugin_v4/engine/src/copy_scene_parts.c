@@ -5,6 +5,8 @@
 #include "vm.h"
 #include "gbs_types.h"
 #include "scroll.h"
+#include "bankdata.h"
+#include "data_manager.h"
 
 UBYTE tmp_tile_buffer[32];
 
@@ -67,7 +69,7 @@ void copy_background_submap_to_overlay_base(SCRIPT_CTX * THIS) OLDCALL BANKED {
 		height = 32;
 	}
 	UBYTE buffer_size = sizeof(UBYTE) * width;
-	for (int i = 0; i < height; i++){		
+	for (uint8_t i = 0; i < height; i++){		
 		int16_t offset = ((source_y + i) * (int16_t)bkg.width) + source_x;
 #ifdef CGB
 		if (_is_CGB) {
@@ -107,7 +109,7 @@ void copy_background_submap_to_background(SCRIPT_CTX * THIS) OLDCALL BANKED {
 		height = 32;
 	}
 	UBYTE buffer_size = sizeof(UBYTE) * width;
-	for (int i = 0; i < height; i++){		
+	for (uint8_t i = 0; i < height; i++){		
 		int16_t offset = ((source_y + i) * (int16_t)bkg.width) + source_x;
 #ifdef CGB
 		if (_is_CGB) {
@@ -153,7 +155,7 @@ void copy_background_submap_to_background_base(SCRIPT_CTX * THIS) OLDCALL BANKED
 	}
 	UBYTE buffer_size = sizeof(UBYTE) * width;	
 	
-	for (int i = 0; i < height; i++){		
+	for (uint8_t i = 0; i < height; i++){		
 		int16_t offset = ((source_y + i) * (int16_t)bkg.width) + source_x;
 #ifdef CGB
 		if (_is_CGB) {
@@ -165,5 +167,48 @@ void copy_background_submap_to_background_base(SCRIPT_CTX * THIS) OLDCALL BANKED
 #endif
 		MemcpyBanked(tmp_tile_buffer, tilemap_ptr + offset, buffer_size, bkg.tilemap.bank);
 		set_bkg_based_tiles(dest_x & 31, (dest_y + i) & 31, width, 1, tmp_tile_buffer, tile_idx_offset);
+	}	
+}
+
+void copy_background_submap_to_background_tileset(SCRIPT_CTX * THIS) OLDCALL BANKED {	
+	uint8_t source_x = *(int8_t*)VM_REF_TO_PTR(FN_ARG0);
+	uint8_t source_y = *(int8_t*)VM_REF_TO_PTR(FN_ARG1);
+	uint8_t dest_x = *(int8_t*)VM_REF_TO_PTR(FN_ARG2);
+	uint8_t dest_y = *(int8_t*)VM_REF_TO_PTR(FN_ARG3);
+	uint8_t width = *(int8_t*)VM_REF_TO_PTR(FN_ARG4);
+	uint8_t height = *(int8_t*)VM_REF_TO_PTR(FN_ARG5);
+	uint8_t scene_bank = *(uint8_t *) VM_REF_TO_PTR(FN_ARG6);
+	const scene_t * scene_ptr = *(scene_t **) VM_REF_TO_PTR(FN_ARG7);		
+	scene_t scn;
+    MemcpyBanked(&scn, scene_ptr, sizeof(scn), scene_bank);
+	background_t bkg;
+    MemcpyBanked(&bkg, scn.background.ptr, sizeof(bkg), scn.background.bank);
+    const tileset_t* tileset = bkg.tileset.ptr;
+	unsigned char* tilemap_ptr = bkg.tilemap.ptr;
+	unsigned char* tilemap_attr_ptr = bkg.cgb_tilemap_attr.ptr;	
+
+	if (width > 32){
+		width = 32;
+	}
+	if (height > 32){
+		height = 32;
+	}
+	UBYTE buffer_size = sizeof(UBYTE) * width;
+	for (uint8_t i = 0; i < height; i++){
+		uint16_t source_offset = ((source_y + i) * (int16_t)bkg.width) + source_x;
+		uint16_t dest_offset = ((dest_y + i) * image_tile_width) + dest_x;
+#ifdef CGB
+		if (_is_CGB) {
+			VBK_REG = 1;			
+			MemcpyBanked(tmp_tile_buffer, tilemap_attr_ptr + source_offset, buffer_size, bkg.cgb_tilemap_attr.bank);
+			set_bkg_tiles(dest_x & 31, (dest_y + i) & 31, width, 1, tmp_tile_buffer);
+			VBK_REG = 0;
+		}
+#endif
+		for (uint8_t j = 0; j < width; j++){	
+			UBYTE dest_tile = ReadBankedUBYTE(image_ptr + (dest_offset + j), image_bank);	
+			UBYTE source_tile = ReadBankedUBYTE(tilemap_ptr + (source_offset + j), bkg.tilemap.bank);	
+			SetBankedBkgData(dest_tile, 1, tileset->tiles + (source_tile << 4), bkg.tileset.bank);
+		}
 	}	
 }

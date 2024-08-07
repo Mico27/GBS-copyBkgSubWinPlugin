@@ -79,7 +79,7 @@ export const fields = [
 ];
 
 export const compile = (input, helpers) => {
-  const { options, variableSetToValue, _callNative, _rpn, _stackPushConst, _stackPush, _stackPop, _localRef, _addComment, _declareLocal, _overlayShow, _addCmd, appendRaw, variableSetToScriptValue } = helpers;
+  const { options, _callNative, _stackPushConst, _stackPush, _stackPop, _addComment, _declareLocal, variableSetToScriptValue } = helpers;
   
   const { scenes } = options;
   const scene = scenes.find((s) => s.id === input.sceneId);
@@ -100,9 +100,7 @@ export const compile = (input, helpers) => {
   variableSetToScriptValue(tmp3, input.win_y);
   variableSetToScriptValue(tmp4, input.w);
   variableSetToScriptValue(tmp5, input.h);
-  
-  
-  //_stackPush
+   
   
   _addComment("Copy scene submap to overlay");
   
@@ -115,7 +113,6 @@ export const compile = (input, helpers) => {
   _stackPush(tmp1);
   _stackPush(tmp0);
   		
-  //_callNative("copy_background_submap_to_overlay"); 
   _callNative("copy_background_submap_to_overlay");
   _stackPop(8);  
   

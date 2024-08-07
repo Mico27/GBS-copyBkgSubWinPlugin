@@ -1,9 +1,9 @@
-export const id = "EVENT_COPY_BKG_SUBMAP_TO_BKG";
-export const name = "Copy scene submap to background";
+export const id = "EVENT_COPY_BKG_SUBMAP_TO_BKG_TILESET";
+export const name = "Copy scene submap to background tileset";
 export const groups = ["EVENT_GROUP_SCREEN"];
 
 export const autoLabel = (fetchArg) => {
-  return `Copy scene submap to background`;
+  return `Copy scene submap to background tileset`;
 };
 
 export const fields = [
@@ -100,7 +100,7 @@ export const compile = (input, helpers) => {
   variableSetToScriptValue(tmp3, input.dest_y);
   variableSetToScriptValue(tmp4, input.w);
   variableSetToScriptValue(tmp5, input.h);
-    
+  
   _addComment("Copy scene submap to background");
   
   _stackPushConst(`_${scene.symbol}`);
@@ -112,7 +112,7 @@ export const compile = (input, helpers) => {
   _stackPush(tmp1);
   _stackPush(tmp0);
   		
-  _callNative("copy_background_submap_to_background");
+  _callNative("copy_background_submap_to_background_tileset");
   _stackPop(8);  
   
 };
