@@ -17,3 +17,5 @@ The "Copy scene submap to background tileset" event allows you to do unique tile
 ![image](https://github.com/user-attachments/assets/fd79e9b2-e07c-4775-8fdc-fbdcdf4dda87)
 ![image](https://github.com/user-attachments/assets/328445ef-aa6b-41d9-b903-25fd635b7f6a)
 
+"Copy scene submap to background tileset" now has the option to specify the pointer/bank address of the scene for dynamic loading
+![image](https://github.com/user-attachments/assets/0ce607ac-9a76-46fd-81e0-271803c04185)
