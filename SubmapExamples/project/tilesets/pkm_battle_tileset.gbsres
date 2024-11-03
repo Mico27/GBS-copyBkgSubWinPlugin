@@ -1,0 +1,11 @@
+{
+  "_resourceType": "tileset",
+  "id": "f21d7b04-32df-45a8-99a5-52fdcc5182ed",
+  "name": "pkm_battle_tileset",
+  "symbol": "tileset_pkm_battle_tileset",
+  "width": 16,
+  "height": 16,
+  "imageWidth": 128,
+  "imageHeight": 128,
+  "filename": "pkm_battle_tileset.png"
+}
