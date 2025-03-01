@@ -1,5 +1,6 @@
 # GBS-copyBkgSubWinPlugin
  Plugin for partialy copying a scene to the overlay or background
+ Also added events to set background/overlay tiles individualy
 
 if you are using GBS v4 use the v4 plugin version
 
